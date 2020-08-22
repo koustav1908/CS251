@@ -21,7 +21,7 @@ get_key(){
             done
             deciphered=$deciphered" "
         done
-        isKey=$(echo $deciphered | egrep -i "Mary|Queen|Majesty" | wc -l)
+        isKey=$(echo $deciphered | egrep -i "Queen|Majesty" | wc -l)
         if [ $isKey -ne 0 ];then
             return $key
         fi
