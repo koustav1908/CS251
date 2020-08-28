@@ -14,9 +14,40 @@
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{amsmath,amsthm,amssymb,esint}
+\usepackage{listings}
+\usepackage[ruled,vlined,lined,linesnumbered,commentsnumbered]{algorithm2e}
+\usepackage{subcaption}
+\usepackage{multirow}
 \graphicspath{ {./} }
 \newcommand{\latex}{\LaTeX\xspace}
 \newcommand{\tex}{\TeX\xspace}
+\newcommand{\R}{\mathbb{R}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{remark}{Remark}
+\newcounter{num}
+\newenvironment{Listing}[2]
+{
+\refstepcounter{num}
+\begin{center}
+    \textbf{\large{Listing \thenum : #1}}\\
+    \textbf{#2}
+\end{center}
+}
+{
+\vspace{1.5em}
+}
+\lstnewenvironment{LaTeXlisting}{\lstset{language=[LaTeX]TeX}}{}
+\lstset{
+    numbers=left,
+    language=[LaTeX]TeX,
+    breaklines=true,
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{gray},
+    commentstyle=\color{green!30!black},
+    stringstyle=\color{violet},
+}
 \title{\latex Starter Pack}
 \author{190050062-190050116}
 \date{August 24 2020}
@@ -28,13 +59,16 @@
 \cfoot{Page \thepage}
 \renewcommand{\footrulewidth}{1pt}
 
+
 \begin{document}
+
 
 \maketitle
 \tableofcontents
 \thispagestyle{empty}
 \setcounter{page}{0}
 \newpage
+
 
 \section{Introduction}
 \latex (most popularly pronounced lay-tech; sometimes laa-tech) is an incredibly efficient office tool to typeset professional looking technical documents and reports. You will certainly find it useful to write assignments, format your resume, and more generally, to make everything you do look cooler.\par
@@ -46,7 +80,7 @@ In this assignment, we will explore and demonstrate some features that often pro
 In this introductory section, we have also seen how we can format text. For instance, we can make text bold, italicized, colour it, or manipulate its size, and even toggle between alignments!\par
 \end{large}
 \begin{flushright}
-\textcolor{Sepia}{{\LARGE C}{\large ARPE} {\LARGE D}{\large IEM!}}
+\textbf{\textcolor{Sepia}{{\LARGE C}{\large ARPE} {\LARGE D}{\large IEM!}}}
 \end{flushright}
 \begin{figure}[H]
 \centering
@@ -92,6 +126,189 @@ Descriptive lists are sometimes handy:\par
 \paragraph{The Page Layout}\mbox{}\\\mbox{}\\
 The paper size for this document is A4. The left and right margins are 1.2 inches each; the lower margin is 1.5 inches. The \texttt{geometry} package is very convenient to set up and manipulate these dimensions.\mbox{}\\\mbox{}\\\mbox{}\\
 \section{Mathematics}
+Make sure that you have imported the \texttt{amsmath}, \texttt{amsthm}, \texttt{amssymb}, and \texttt{esint} packages, in that order. Have a look at the turorial to understand how they work, and what they do. In particular, the \texttt{amsthm} package makes defining ordered theorem-like environments very convenient.\par
+\begin{theorem}[Markov's Inequalty]
+\label{theorem1}
+If X is a non-negative random variable and $a>0$ then
+\[P(X\geq a)\leq \frac{E(X)}{a}\]
+\end{theorem}
+\begin{corollary}[Chebyshev's Inequality]
+\label{corollary2}
+Let X be an integrable random variablewith finite expected value $\mu$ and finite variance $\sigma^2 \neq 0$. Then for any $k\in\R,k>0$,
+\[P(\mid X-\mu \mid \geq k\sigma)\leq \frac{1}{k^2}\]
+\end{corollary}
+\begin{proof}
+Let the random variable $Y := (X-\mu)^2$. Observe that Y is a non-negative random variable; and from the definition of variance, $E(Y)=\sigma^2$, which is positive from the premise. Hence we can appeal to Theorem \hyperref[theorem1]{1}.
+\[P(Y\geq k^2\sigma^2)\leq \frac{\sigma^2}{k^2\sigma^2}=\frac{1}{k^2}\]
+However, $P(Y\geq k^2\sigma^2)=P(\mid X-\mu \mid\geq k\sigma)$ and we are done.
+\end{proof}
+Consider a plane $z=ax+by+c$. Usually, 3 points on the plane are suffucient to determine the parameters a,b,c; however, we're given a data set of several points: x and y coordinates are known perfectly, but the z coordinates are corrupted by a Gaussian noise $\mathcal{N}$(0,1). Here's how we solve for the maximum likelihood estimates of the parameters:
+\begin{equation}
+\label{equation1}
+\left[
+\begin{matrix}
+\Sigma_{i}{}x_i^{2} & \Sigma_{i}{}x_iy_i & \Sigma_{i}{}x_i\\
+\Sigma_{i}{}x_iy_i & \Sigma_{i}{}y_i^{2} & \Sigma_{i}{}y_i\\
+\Sigma_{i}{}x_i & \Sigma_{i}{}y_i & \Sigma_{i}{}1
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+\hat{a}\\
+\hat{b}\\
+\hat{c}
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+\Sigma_{i}{}x_iz_i\\
+\Sigma_{i}{}y_iz_i\\
+\Sigma_{i}{}z_i
+\end{matrix}
+\right]
+\end{equation}
+The above equation(we also refer to it as equation \hyperref[equation1]{1} as we created a label) is obtained by setting the partial derivatives of the log-likelihood to 0, eg. $\frac{\partial \mathcal(L)}{\partial a}$ etc.\par
+Observe that we also cross referenced Theorem \hyperref[theorem1]{1} in the proof of Corollary \hyperref[corollary2]{2}. And here we just did it again. This is how we use labels in tandem with the \texttt{hyperref} package.\par
+\begin{theorem}[De Morgan's Law]
+\label{theorem3}
+$\neg(a\lor b) \iff \neg a \land \neg b$. Alternately, in the context of sets, we have $\bar{A \cup B}= \bar{A}\cap \bar{B}$.
+\end{theorem}
+\begin{remark}
+This is closely related to the following rule in first order propositional logic: $\neg(\exists x.p(x)) \iff \forall x.\neg p(x)$
+\end{remark}
+We almost always want to cite sources for the claims we make because when you publish, it's pointless to keep reinventing the wheel. For instance, the Kronecker's Theorem on simultaneous Diophantine approximations is a standard but powerful reader, it makes sense to refer the reader to \cite{ref2} Chap.7, Sec. 1.3, Prop.7 for a statement and proof. This source is a book. Make sure you enter relevant information in the appropriate fields in the BibTeX entry.\par
+In Computer Science, most citations are journal or conference papers. A discussion on algebraic numbers is incomplete without citing the Mignotte seperation bounds, given in a modestly titled conference paper \cite{ref3}. We can even cite multiple souces with a single command \cite{ref1,ref4}. These are journal articles. If possible, its best to specify colume and page numbers. Your aim should be to point the reader to what you're quoting as unambiguously as possible.\par
 \section{Computer Science}
+\subsection{Algorithms}
+We have used the \texttt{algorithm2e} package.\par
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetAlgoLined
+\KwData{Graph,source}
+\KwResult{Distances from each vertex from the source and starting edges of the shortest paths}
+create a priority queue $Q$ of vertices of Graph //min-heap\;
+\For{each vertex v in Graph}{
+$dist[v] \longleftarrow \inf$\;
+$prev[v] \longleftarrow \text{\textsc{undefined}}$\;
+Add $v$ to $Q$\;
+}
+$dist[source] \longleftarrow 0$\;
+\While{Q is not empty}{
+$u \longleftarrow Q.extract()$\;
+\For{neighbour $v \in Q$ of u}{
+$alt \longleftarrow dist[u]+length(u,v)$\;
+\If{$alt<dist[v]$}{
+$dist[v] \longleftarrow alt$\;
+$prev[v] \longleftarrow u$
+}
+}
+}
+return $dist[],prev[]$\;
+
+\caption{Dijkstra's Algorithm\label{algo1}}
+\end{algorithm}
+\subsection{Environments \& Code}
+\begin{Listing}{[LaTex]Tex}{The Listings Package}
+\begin{LaTeXlisting}
+\begin{lstlisting}
+%Your code goes here.
+
+%This is actually how you present code in \LaTeX, without worrying about accidentaly invoking a macro. Yes the text displayed is a verbatim.
+\end{lstlisting}
+\label{trickq}
+\end{LaTeXlisting}
+\label{list1}
+\end{Listing}
+For our document however, we noticed that na\"ive methods and defined a custom environment with \verb!\lstnewenvironment!. This takes care of title formatting and vertical spacing too! Our environment has a counter associated with it, and takes the title and language as arguements. Other code formatter options are specified with \verb!\lstset!{$\dots$}. You might want to have a look at the tutorial!\par
+\newpage
+\begin{Listing}{[LaTeX]TeX}{Algorithm Boilerplate}
+\begin{lstlisting}
+\documentclass{article}
+%...
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%...
+\begin{document}
+%...
+\begin{algorithm}[h]
+\caption{...}
+\SetAlgoLined
+\DontPrintSemicolon
+\KwData{...}
+\KwResult{...}
+Statement \;
+%Let magic happen here
+$1+1=2$ \;
+\end{algorithm}
+%...
+\end{document}
+\end{lstlisting}
+\label{list2}
+\end{Listing}
+\begin{Listing}{Bash}{Another Language}
+\begin{lstlisting}[language=bash]
+#some keywords
+for echo cat case if esac elif fi awk sed pwd while do
+sudo apt-get update sleep
+\end{lstlisting}
+\label{list3}
+\end{Listing}
+\begin{Listing}{Python}{Keywords, comments, strings}
+\begin{lstlisting}[language=python]
+from numpy import *
+#insanely powerful library
+print("Hello Everyone!")
+\end{lstlisting}
+\label{list4}
+\end{Listing}
+The advantage of defining such ordered environments like this is that you can refer to this pretty easily if you have left a label properly. If you want to shift them around, the counter and the cross references will do the adjustment accordingly. Of the above Listing \hyperref[list1]{1} is a fiendish tricky question, and Listing \hyperref[list2]{2} is rather benevolent.
+\newpage
 \section{Utilities}
+\subsection{Images}
+You'll sometimes find the need to include images in your report. Ideally, the images should enhance the document. But yeah, you are probably going to use this technique for a rather dirty life hack. If a Prof. insists on a \LaTeX report, you're just going to dump a photo of your exquisite handwriting to save time, are'nt you?\textit{Exploit this loophole at your own risk. The original author of this assignment can neither confirm nor deny his endorsement of this jugaad.}\par
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+\centering
+\includegraphics[height=\textwidth]{aristotle}
+\caption{Aristotle: The first former logocian}
+\label{fig2}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+\centering
+\includegraphics[height=\textwidth]{kripke}
+\caption{Saul Kripke: we've come a long way since then.}
+\end{subfigure}
+\end{figure}
+\href{https://www.britannica.com/biography/Aristotle}{Aristotle image source}\\
+\href{https://commons.wikimedia.org/w/index.php?curid=5763037}{Saul Kripke image source}\\
+Make sure you follow these links, so you know where the hyperlinks lead to when you typeset it yourself.\par
+\subsection{Tables}
+\begin{table}[H]
+\centering
+\begin{tabular}{c|l}
+\hline
+\textbf{Complexity} & \textbf{Examples}\\
+\hline
+$\mathcal{O}(1)$ & Computing $(-1)^n$\\
+\hline
+\multirow{2}{*}{$\mathcal{O}(\log(n))$}& Binary Search\\
+& Insertion\& Removal from a min-heap\\
+\hline
+\multirow{2}{*}{$\mathcal{O}(n\log(n))$} & Merge Sort\\
+& Fast Fourier Transform\\
+\hline
+\multirow{2}{*}{$\mathcal{O}(n^2)$} & Bubble Sort\\
+& First Attempt at a problem which has linear time solution\\
+\hline
+$2^{\mathcal{O}(\log(n))}$ & AKS Primality Test\\
+\hline
+\multicolumn{2}{c}{You might want to define a macro to write this notation conveniently}
+\end{tabular}
+\caption{Some common time complexities}
+\end{table}
+This table uses \texttt{multirow} as well as \texttt{multicolumn}. Replicate it as well as you can.\par
+We have used the fairly popular \texttt{plainurl} style.
+\bibliographystyle{unsrt}
+\bibliography{my_starter_pack}
 \end{document}
