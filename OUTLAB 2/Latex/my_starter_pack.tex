@@ -17,16 +17,17 @@
 \usepackage{amsmath,amsthm,amssymb,esint}
 \usepackage{listings}
 \usepackage[ruled,vlined,lined,linesnumbered,commentsnumbered]{algorithm2e}
-\usepackage{subcaption}
+\usepackage{caption}
 \usepackage{multirow}
 \graphicspath{ {./} }
 \newcommand{\latex}{\LaTeX\xspace}
 \newcommand{\tex}{\TeX\xspace}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
 \newtheorem{theorem}{Theorem}
-\newtheorem{corollary}{Corollary}
+\newtheorem{corollary}[theorem]{Corollary}
 \newtheorem*{remark}{Remark}
-\newcounter{num}
+\newcounter{num}[section]
 \newenvironment{Listing}[2]
 {
 \refstepcounter{num}
@@ -43,6 +44,7 @@
     numbers=left,
     language=[LaTeX]TeX,
     breaklines=true,
+    delim=[s][\color{red!50!black}]{$}{$},
     keywordstyle=\color{blue}\bfseries,
     numberstyle=\tiny\color{gray},
     commentstyle=\color{green!30!black},
@@ -50,7 +52,7 @@
 }
 \title{\latex Starter Pack}
 \author{190050062-190050116}
-\date{August 24 2020}
+\date{August 30,2020}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -126,7 +128,7 @@ Descriptive lists are sometimes handy:\par
 \paragraph{The Page Layout}\mbox{}\\\mbox{}\\
 The paper size for this document is A4. The left and right margins are 1.2 inches each; the lower margin is 1.5 inches. The \texttt{geometry} package is very convenient to set up and manipulate these dimensions.\mbox{}\\\mbox{}\\\mbox{}\\
 \section{Mathematics}
-Make sure that you have imported the \texttt{amsmath}, \texttt{amsthm}, \texttt{amssymb}, and \texttt{esint} packages, in that order. Have a look at the turorial to understand how they work, and what they do. In particular, the \texttt{amsthm} package makes defining ordered theorem-like environments very convenient.\par
+Make sure you have imported the \texttt{amsmath}, \texttt{amsthm}, \texttt{amssymb}, and \texttt{esint} packages, in that order. Have a look at the turorial to understand how they work, and what they do. In particular, the \texttt{amsthm} package makes defining ordered theorem-like environments very convenient.\par
 \begin{theorem}[Markov's Inequalty]
 \label{theorem1}
 If X is a non-negative random variable and $a>0$ then
@@ -168,16 +170,16 @@ Consider a plane $z=ax+by+c$. Usually, 3 points on the plane are suffucient to d
 \end{matrix}
 \right]
 \end{equation}
-The above equation(we also refer to it as equation \hyperref[equation1]{1} as we created a label) is obtained by setting the partial derivatives of the log-likelihood to 0, eg. $\frac{\partial \mathcal(L)}{\partial a}$ etc.\par
+The above equation(we also refer to it as equation \hyperref[equation1]{1} as we created a label) is obtained by setting the partial derivatives of the log-likelihood to 0, eg. $\partial \mathcal{L}/\partial a = 0$  etc.\par
 Observe that we also cross referenced Theorem \hyperref[theorem1]{1} in the proof of Corollary \hyperref[corollary2]{2}. And here we just did it again. This is how we use labels in tandem with the \texttt{hyperref} package.\par
 \begin{theorem}[De Morgan's Law]
 \label{theorem3}
-$\neg(a\lor b) \iff \neg a \land \neg b$. Alternately, in the context of sets, we have $\bar{A \cup B}= \bar{A}\cap \bar{B}$.
+$\neg(a\lor b) \iff \neg a \land \neg b$. Alternately, in the context of sets, we have $\overline{A \cup B}= \overline{A}\cap \overline{B}$.
 \end{theorem}
 \begin{remark}
 This is closely related to the following rule in first order propositional logic: $\neg(\exists x.p(x)) \iff \forall x.\neg p(x)$
 \end{remark}
-We almost always want to cite sources for the claims we make because when you publish, it's pointless to keep reinventing the wheel. For instance, the Kronecker's Theorem on simultaneous Diophantine approximations is a standard but powerful reader, it makes sense to refer the reader to \cite{ref2} Chap.7, Sec. 1.3, Prop.7 for a statement and proof. This source is a book. Make sure you enter relevant information in the appropriate fields in the BibTeX entry.\par
+We almost always want to cite sources for the claims we make because when you publish, it's pointless to keep reinventing the wheel. For instance, the Kronecker's Theorem on simultaneous Diophantine approximations is a standard but powerful reader, it makes sense to refer the reader to \cite[,Chap.7, Sec. 1.3, Prop. 7]{ref2} for a statement and proof. This source is a book. Make sure you enter relevant information in the appropriate fields in the BibTeX entry.\par
 In Computer Science, most citations are journal or conference papers. A discussion on algebraic numbers is incomplete without citing the Mignotte seperation bounds, given in a modestly titled conference paper \cite{ref3}. We can even cite multiple souces with a single command \cite{ref1,ref4}. These are journal articles. If possible, its best to specify colume and page numbers. Your aim should be to point the reader to what you're quoting as unambiguously as possible.\par
 \section{Computer Science}
 \subsection{Algorithms}
@@ -209,7 +211,8 @@ return $dist[],prev[]$\;
 \caption{Dijkstra's Algorithm\label{algo1}}
 \end{algorithm}
 \subsection{Environments \& Code}
-\begin{Listing}{[LaTex]Tex}{The Listings Package}
+\begin{Listing}{[LaTeX]TeX}{The Listings Package}
+\label{list1}
 \begin{LaTeXlisting}
 \begin{lstlisting}
 %Your code goes here.
@@ -218,11 +221,11 @@ return $dist[],prev[]$\;
 \end{lstlisting}
 \label{trickq}
 \end{LaTeXlisting}
-\label{list1}
 \end{Listing}
 For our document however, we noticed that na\"ive methods and defined a custom environment with \verb!\lstnewenvironment!. This takes care of title formatting and vertical spacing too! Our environment has a counter associated with it, and takes the title and language as arguements. Other code formatter options are specified with \verb!\lstset!{$\dots$}. You might want to have a look at the tutorial!\par
 \newpage
 \begin{Listing}{[LaTeX]TeX}{Algorithm Boilerplate}
+\label{list2}
 \begin{lstlisting}
 \documentclass{article}
 %...
@@ -243,7 +246,6 @@ $1+1=2$ \;
 %...
 \end{document}
 \end{lstlisting}
-\label{list2}
 \end{Listing}
 \begin{Listing}{Bash}{Another Language}
 \begin{lstlisting}[language=bash]
@@ -268,17 +270,17 @@ The advantage of defining such ordered environments like this is that you can re
 You'll sometimes find the need to include images in your report. Ideally, the images should enhance the document. But yeah, you are probably going to use this technique for a rather dirty life hack. If a Prof. insists on a \LaTeX report, you're just going to dump a photo of your exquisite handwriting to save time, are'nt you?\textit{Exploit this loophole at your own risk. The original author of this assignment can neither confirm nor deny his endorsement of this jugaad.}\par
 \begin{figure}[H]
 \centering
-\begin{subfigure}[b]{0.4\textwidth}
+\begin{minipage}[t]{0.4\textwidth}
 \centering
-\includegraphics[height=\textwidth]{aristotle}
-\caption{Aristotle: The first former logocian}
+\includegraphics[scale=0.35]{aristotle}
+\captionof{figure}{Aristotle: The first former logocian}
 \label{fig2}
-\end{subfigure}
-\begin{subfigure}[b]{0.4\textwidth}
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
 \centering
-\includegraphics[height=\textwidth]{kripke}
-\caption{Saul Kripke: we've come a long way since then.}
-\end{subfigure}
+\includegraphics[scale=0.52]{kripke}
+\captionof{figure}{Saul Kripke: we've come a long way since then.}
+\end{minipage}
 \end{figure}
 \href{https://www.britannica.com/biography/Aristotle}{Aristotle image source}\\
 \href{https://commons.wikimedia.org/w/index.php?curid=5763037}{Saul Kripke image source}\\
@@ -290,25 +292,27 @@ Make sure you follow these links, so you know where the hyperlinks lead to when 
 \hline
 \textbf{Complexity} & \textbf{Examples}\\
 \hline
-$\mathcal{O}(1)$ & Computing $(-1)^n$\\
+$\bigO(1)$ & Computing $(-1)^n$\\
 \hline
-\multirow{2}{*}{$\mathcal{O}(\log(n))$}& Binary Search\\
+\multirow{2}{*}{$\bigO(\log(n))$}& Binary Search\\
 & Insertion\& Removal from a min-heap\\
 \hline
-\multirow{2}{*}{$\mathcal{O}(n\log(n))$} & Merge Sort\\
+\multirow{2}{*}{$\bigO(n\log(n))$} & Merge Sort\\
 & Fast Fourier Transform\\
 \hline
-\multirow{2}{*}{$\mathcal{O}(n^2)$} & Bubble Sort\\
+\multirow{2}{*}{$\bigO(n^2)$} & Bubble Sort\\
 & First Attempt at a problem which has linear time solution\\
 \hline
-$2^{\mathcal{O}(\log(n))}$ & AKS Primality Test\\
+$2^{\bigO(\log(n))}$ & AKS Primality Test\\
 \hline
-\multicolumn{2}{c}{You might want to define a macro to write this notation conveniently}
+\multicolumn{2}{c}{You might want to define a macro to write this notation conveniently}\\
+\hline
 \end{tabular}
 \caption{Some common time complexities}
 \end{table}
 This table uses \texttt{multirow} as well as \texttt{multicolumn}. Replicate it as well as you can.\par
+\newpage
 We have used the fairly popular \texttt{plainurl} style.
-\bibliographystyle{unsrt}
+\bibliographystyle{plain}
 \bibliography{my_starter_pack}
 \end{document}
