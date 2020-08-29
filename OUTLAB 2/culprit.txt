@@ -1,1 +1,23 @@
+Name of culprit : Saurav <saurav@xyz.com>
+
+Command sequence :
+
+git config user.name "koustavsen"
+git config user.email "koustavsen@cse.iitb.ac.in"
+git reflog
+git checkout 2b71b5d -- .
+bash main.sh
+git commit -m "Everything is fine again"
+git reflog --name-status
+git show 2415f77
+rm -r *
+git add .
+git commit -m "deleted all files"
+git reflog
+git checkout 43678cd -- . (commit hash of "Everything is fine again")
+git add .
+git commit -m "Everything is fine again"
+git rebase -i HEAD~4
+git add main.sh
+git rebase --continue
 
